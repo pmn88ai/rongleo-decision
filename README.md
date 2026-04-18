@@ -1,16 +1,144 @@
-# React + Vite
+# RongLeo Decision 🧠
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Một web app hỗ trợ tư duy & ra quyết định dựa trên AI + workflow + graph.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 CORE IDEA
 
-## React Compiler
+Không chỉ chat với AI.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+App này giúp:
 
-## Expanding the ESLint configuration
+- Biến ý tưởng → prompt → phản hồi → tổng hợp → quyết định
+- Lưu toàn bộ quá trình dưới dạng **graph (node + edge)**
+- Theo dõi tiến trình như một pipeline rõ ràng
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🧩 FLOW
+
+1. Idea → nhập ý tưởng
+2. Prompt → chọn prompt template
+3. Response → nhập phản hồi từ AI (ChatGPT, Groq, Gemini…)
+4. Summary → tổng hợp insight
+5. Decision → ra quyết định + hành động
+
+---
+
+## 🧠 FEATURE GRAPH (CORE)
+
+Mỗi bước = 1 node  
+Quan hệ giữa các bước = edge
+
+=> tạo thành knowledge graph cho từng project
+
+### Tables (Supabase)
+
+- `rl_nodes`
+- `rl_edges`
+
+---
+
+## ⚙️ TECH STACK
+
+- React (Vite)
+- Supabase (DB + API)
+- Groq API (LLM)
+- LocalStorage (persist UI state)
+
+---
+
+## 📦 SETUP LOCAL
+
+### 1. Clone
+
+```bash
+git clone https://github.com/<your-username>/rongleo-decision.git
+cd rongleo-decision
+2. Install
+npm install
+3. ENV
+
+Tạo file .env
+
+VITE_SUPABASE_URL=your_url
+VITE_SUPABASE_ANON_KEY=your_key
+VITE_GROQ_API_KEY=your_key
+
+⚠️ KHÔNG commit file này lên GitHub
+
+4. Run
+npm run dev
+🗄️ SETUP DATABASE (SUPABASE)
+
+Chạy file:
+
+supabase_graph.sql
+
+Tạo:
+
+rl_nodes
+rl_edges
+📊 GRAPH SYSTEM
+Node
+{
+  "id": "...",
+  "project_id": "...",
+  "type": "idea | prompt | response | summary | decision",
+  "content": "...",
+  "position": { "x": 0, "y": 0 }
+}
+Edge
+{
+  "from_node_id": "...",
+  "to_node_id": "...",
+  "type": "flow"
+}
+🧠 AI INTEGRATION (GROQ)
+
+File: src/lib/groq.js
+
+Model:
+
+model: "llama-3.3-70b-versatile"
+⚠️ SECURITY
+Không push .env
+Nếu lỡ push → phải:
+revoke key
+rotate key mới
+📤 DEPLOY
+Option 1: Vercel
+npm run build
+
+Upload lên Vercel + set ENV
+
+Option 2: Netlify
+Build command: npm run build
+Output: dist
+🧪 DEBUG
+Lỗi Groq
+model deprecated → đổi model
+Lỗi trim()
+typeof value === "string" && value.trim()
+Lỗi state React
+
+Không gọi setState bừa trong useEffect
+
+🎯 ROADMAP
+ Drag & drop canvas graph
+ Auto generate prompts
+ Multi-agent AI
+ Export PDF decision report
+ Versioning project
+🧑‍💻 AUTHOR
+
+RongLeo 🐉
+
+📌 NOTE
+
+Đây không phải tool chat.
+
+Đây là:
+👉 hệ thống hóa tư duy + quyết định
+```
